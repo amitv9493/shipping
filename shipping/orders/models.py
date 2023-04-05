@@ -34,7 +34,6 @@ class Order(models.Model):
     shipping_address = models.CharField(max_length=200)
     shipping_method = models.CharField(max_length=50)
     order_status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
-    # label = models.CharField(_("Label"), max_length=100, null=True, blank=True)
     label = models.ImageField(_("Label"), null=True, blank=True)
 
     # other fields as needed
