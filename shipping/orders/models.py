@@ -43,25 +43,25 @@ class Order(models.Model):
         ('cancelled', 'Cancelled'),
     ]
 
-    order_number = models.CharField(max_length=100, unique=True)
-    sales_channel = models.ForeignKey(SalesChannel, on_delete=models.CASCADE)
+    order_number = models.CharField(max_length=100, unique=True,null=True, blank=True)
+    sales_channel = models.ForeignKey(SalesChannel, on_delete=models.CASCADE,null=True, blank=True)
     order_date = models.DateTimeField(default=timezone.now)
-    customer_name = models.CharField(max_length=100)
-    customer_email = models.EmailField()
-    shipping_address = models.CharField(max_length=200)
-    shipping_method = models.CharField(max_length=50)
+    customer_name = models.CharField(max_length=100,null=True, blank=True)
+    customer_email = models.EmailField(null=True, blank=True)
+    shipping_address = models.CharField(max_length=200,null=True, blank=True)
+    shipping_method = models.CharField(max_length=50,null=True, blank=True)
     order_status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
     label = models.ImageField(_("Label"), null=True, blank=True)
 
     # Postage Defination
     
     packaging_group = models.ForeignKey(Packaging_Group, on_delete=models.CASCADE, null=True,blank=True)
-    weight = models.PositiveIntegerField()
+    weight = models.PositiveIntegerField( null=True,blank=True)
 
     # Dimensions
-    width = models.PositiveIntegerField(_("width"))
-    height = models.PositiveIntegerField(_("Height"))
-    depth = models.PositiveIntegerField()
+    width = models.PositiveIntegerField(_("width"), null=True,blank=True)
+    height = models.PositiveIntegerField(_("Height"),  null=True,blank=True)
+    depth = models.PositiveIntegerField( null=True,blank=True)
 
     # other fields as needed
 
