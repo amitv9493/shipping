@@ -4,6 +4,23 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.utils import timezone
 
+class Packing_types(models.Model):
+    name = models.CharField(_("Name"), max_length=200)
+    form_weight = models.PositiveIntegerField(_("form Weight"))
+    to_weight = models.PositiveIntegerField(_("To Weight"))
+    packging_weight =  models.PositiveIntegerField(_("Packging Weight"))
+    height = models.PositiveIntegerField(_("Height"))
+    width = models.PositiveIntegerField(_("Width"))
+    depth = models.PositiveIntegerField(_("Depth"))
+    
+class Packaging_Group(models.Model):
+    name = models.CharField(_("Name"), max_length=200)
+    prevalance = models.PositiveIntegerField(_("Prevalance"))
+    packaging_types = models.ManyToManyField(Packing_types)
+
+    def __str__(self) -> str:
+        return self.name
+
 class SalesChannel(models.Model):
     """
     Represents a sales channel from which orders can be imported.
@@ -35,6 +52,16 @@ class Order(models.Model):
     shipping_method = models.CharField(max_length=50)
     order_status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
     label = models.ImageField(_("Label"), null=True, blank=True)
+
+    # Postage Defination
+    
+    packaging_group = models.ForeignKey(Packaging_Group, on_delete=models.CASCADE, null=True,blank=True)
+    weight = models.PositiveIntegerField()
+
+    # Dimensions
+    width = models.PositiveIntegerField(_("width"))
+    height = models.PositiveIntegerField(_("Height"))
+    depth = models.PositiveIntegerField()
 
     # other fields as needed
 
@@ -85,3 +112,8 @@ class Shipment(models.Model):
         return self.tracking_number
     
     
+
+
+
+
+

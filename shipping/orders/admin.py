@@ -4,7 +4,7 @@ from django.utils.translation import ngettext
 # Register your models here.
 from django.contrib import admin
 
-from .models import SalesChannel, Order, Courier, ShippingRule, Shipment
+from .models import *
 
 from barcode import EAN13
 from barcode.writer import ImageWriter
@@ -19,6 +19,7 @@ class SalesChannelAdmin(admin.ModelAdmin):
         
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    readonly_fields = ['label']
     list_display = (
         'id',
         'order_number',
@@ -85,3 +86,27 @@ class ShipmentAdmin(admin.ModelAdmin):
         'shipped_date',
     )
     # list_filter = ('order', 'courier', 'shipped_date')
+    
+    
+@admin.register(Packing_types)
+class Packing_typesAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+        'form_weight',
+        'to_weight',
+        'packging_weight',
+        'height',
+        'width',
+        'depth',
+    )
+    search_fields = ('name',)
+    
+    def has_module_permission(self, request) -> bool:
+        return False
+    
+@admin.register(Packaging_Group)
+class Packaging_GroupAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'prevalance')
+    search_fields = ('name',)
+
